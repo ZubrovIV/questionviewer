@@ -4,5 +4,12 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+  <bean id="csvReader" class="org.lessons.dao.impl.CsvResourceReaderImpl"/>
+  <bean id="questionParser" class="org.lessons.service.impl.QuestionParserImpl"/>
+  <bean id="questionService" class="org.lessons.service.impl.QuestionServiceImpl">
+    <constructor-arg ref="csvReader"/>
+    <constructor-arg ref="questionParser"/>
+    <constructor-arg value="questions.csv"/>
+  </bean>
 
 </beans>
