@@ -6,9 +6,9 @@ import org.lessons.domain.enums.AnswerType;
 
 public class Question {
 
-  private String questionText;
-  private List<String> answers;
-  private AnswerType answerType;
+  private final String questionText;
+  private final List<String> answers;
+  private final AnswerType answerType;
 
 
   public Question(String questionText, List<String> answers, AnswerType answerType) {
@@ -27,17 +27,5 @@ public class Question {
 
   public boolean isMultipleChoice() {
     return Objects.equals(answerType, AnswerType.Multiple);
-  }
-
-  public void setQuestionText(String questionText) {
-    this.questionText = questionText;
-  }
-
-  public void setAnswers(List<String> answers) {
-    this.answers = answers;
-  }
-
-  public void setAnswerType(AnswerType answerType) {
-    this.answerType = answerType;
   }
 }

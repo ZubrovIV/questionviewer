@@ -22,7 +22,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 
   @Override
-  public void getQuestion() {
+  public void printQuestions() {
     List<Question> questions = parser.parse(resourceReader.readCsv(resourcePath));
     if (Objects.isNull(questions) || questions.isEmpty()) {
       System.out.println("No questions found");
