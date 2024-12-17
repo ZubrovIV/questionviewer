@@ -9,12 +9,17 @@ public class Question {
   private final String questionText;
   private final List<String> answers;
   private final AnswerType answerType;
+  private final Integer number;
+  private final List<Integer> correctAnswers;
 
 
-  public Question(String questionText, List<String> answers, AnswerType answerType) {
+  public Question(String questionText, List<String> answers, AnswerType answerType, Integer number,
+      List<Integer> correctAnswers) {
     this.questionText = questionText;
     this.answers = answers;
     this.answerType = answerType;
+    this.number = number;
+    this.correctAnswers = correctAnswers;
   }
 
   public String getQuestionText() {
@@ -23,6 +28,14 @@ public class Question {
 
   public List<String> getAnswers() {
     return answers;
+  }
+
+  public Integer getNumber() {
+    return number;
+  }
+
+  public List<Integer> getCorrectAnswers() {
+    return correctAnswers;
   }
 
   public boolean isMultipleChoice() {

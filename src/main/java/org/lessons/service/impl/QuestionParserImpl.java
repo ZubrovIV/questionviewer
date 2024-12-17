@@ -15,6 +15,7 @@ public class QuestionParserImpl implements QuestionParser {
   @Override
   public List<Question> parse(InputStream file) {
     List<Question> questions = new ArrayList<>();
+    Integer numberOfQuestions = 1;
     try (BufferedReader br = new BufferedReader(new InputStreamReader(file))) {
       String line;
       while ((line = br.readLine()) != null) {
@@ -22,7 +23,12 @@ public class QuestionParserImpl implements QuestionParser {
         String questionText = part[0];
         List<String> answers = Arrays.asList(part[1].split(","));
         AnswerType answerType = AnswerType.getType(part[2]);
-        questions.add(new Question(questionText, answers, answerType));
+        List<Integer> correctAnswers = Arrays.stream(part[3].split(","))
+            .map(Integer::parseInt)
+            .toList();
+        questions.add(
+            new Question(questionText, answers, answerType, numberOfQuestions, correctAnswers));
+        numberOfQuestions++;
       }
     } catch (Exception e) {
       throw new RuntimeException("Failed parse questions", e);
