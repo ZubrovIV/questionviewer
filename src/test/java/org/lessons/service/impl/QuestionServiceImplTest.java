@@ -36,7 +36,7 @@ class QuestionServiceImplTest {
     when(resourceReader.readCsv(resourcePath)).thenReturn(csvStream);
     when(parser.parse(csvStream)).thenReturn(List.of(QuestionMock.mockQuestion()));
 
-    questionService.getQuestion();
+    questionService.printQuestions();
 
     verify(parser,times(1)).parse(csvStream);
   }
