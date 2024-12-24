@@ -1,4 +1,4 @@
-package org.lessons.service.impl.mock;
+package org.lessons.mock;
 
 import java.util.List;
 import org.lessons.domain.Question;

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.lessons.dao.CsvResourceReader;
 import org.lessons.service.QuestionParser;
-import org.lessons.service.impl.mock.QuestionMock;
+import org.lessons.mock.QuestionMock;
 
 class QuestionServiceImplTest {
 
