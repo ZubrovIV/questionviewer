@@ -6,7 +6,11 @@ import org.lessons.service.StudentRegistrationService;
 
 public class StudentRegistrationServiceImpl implements StudentRegistrationService {
 
-  private final Scanner scanner = new Scanner(System.in);
+  private final Scanner scanner;
+
+  public StudentRegistrationServiceImpl(Scanner scanner) {
+    this.scanner = scanner;
+  }
 
   @Override
   public Student registerStudent() {

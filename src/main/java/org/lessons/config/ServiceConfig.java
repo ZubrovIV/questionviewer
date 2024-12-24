@@ -1,5 +1,6 @@
 package org.lessons.config;
 
+import java.util.Scanner;
 import org.lessons.dao.CsvResourceReader;
 import org.lessons.dao.impl.CsvResourceReaderImpl;
 import org.lessons.service.AnswerService;
@@ -30,6 +31,8 @@ public class ServiceConfig {
   @Value("${resource.path}")
   private String resourcePath;
 
+  private final Scanner scanner = new Scanner(System.in);
+
   @Bean
   public CsvResourceReader csvResourceReader() {
     return new CsvResourceReaderImpl();
@@ -37,7 +40,7 @@ public class ServiceConfig {
 
   @Bean
   public StudentRegistrationService studentRegistrationService() {
-    return new StudentRegistrationServiceImpl();
+    return new StudentRegistrationServiceImpl(scanner);
   }
 
   @Bean
@@ -51,7 +54,6 @@ public class ServiceConfig {
   }
 
   @Bean
-
   public AnswerService answerService() {
     return new AnswerServiceImpl();
   }
