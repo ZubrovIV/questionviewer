@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.lessons.domain.Question;
 import org.lessons.domain.enums.AnswerType;
 import org.lessons.service.QuestionParser;
@@ -23,9 +25,9 @@ public class QuestionParserImpl implements QuestionParser {
         String questionText = part[0];
         List<String> answers = Arrays.asList(part[1].split(","));
         AnswerType answerType = AnswerType.getType(part[2]);
-        List<Integer> correctAnswers = Arrays.stream(part[3].split(","))
+        Set<Integer> correctAnswers = Arrays.stream(part[3].split(","))
             .map(Integer::parseInt)
-            .toList();
+            .collect(Collectors.toSet());
         questions.add(
             new Question(questionText, answers, answerType, numberOfQuestions, correctAnswers));
         numberOfQuestions++;

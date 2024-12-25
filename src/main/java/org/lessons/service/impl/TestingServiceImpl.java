@@ -2,22 +2,34 @@ package org.lessons.service.impl;
 
 import java.util.List;
 import java.util.Objects;
-import org.lessons.domain.Answers;
+import org.lessons.dao.CsvResourceReader;
 import org.lessons.domain.Question;
 import org.lessons.domain.Student;
+import org.lessons.service.QuestionParser;
+import org.lessons.service.QuestionService;
+import org.lessons.service.StudentRegistrationService;
 import org.lessons.service.TestingService;
-import org.lessons.service.dependencies.TestingServiceDependencies;
 
 public class TestingServiceImpl implements TestingService {
 
-  private final TestingServiceDependencies dependencies;
+  private final StudentRegistrationService studentRegistrationService;
+  private final QuestionService questionService;
+  private final QuestionParser questionParser;
+  private final CsvResourceReader resourceReader;
+
 
   private final Integer passingScore;
   private final String resourcePath;
 
-  public TestingServiceImpl(TestingServiceDependencies dependencies, Integer passingScore,
+  public TestingServiceImpl(StudentRegistrationService studentRegistrationService,
+      QuestionService questionService, QuestionParser questionParser,
+      CsvResourceReader resourceReader, Integer passingScore,
       String resourcePath) {
-    this.dependencies = dependencies;
+    this.studentRegistrationService = studentRegistrationService;
+    this.questionService = questionService;
+    this.questionParser = questionParser;
+    this.resourceReader = resourceReader;
+
     this.passingScore = passingScore;
     this.resourcePath = resourcePath;
   }
@@ -25,11 +37,10 @@ public class TestingServiceImpl implements TestingService {
 
   @Override
   public void testingStudent() {
-    Student student = dependencies.studentRegistrationService().registerStudent();
+    Student student = studentRegistrationService.registerStudent();
 
-    List<Question> questions = dependencies.questionParser()
-        .parse(dependencies.resourceReader().readCsv(resourcePath));
-
+    List<Question> questions = questionParser
+        .parse(resourceReader.readCsv(resourcePath));
     if (Objects.isNull(questions) || questions.isEmpty()) {
       System.out.println("No questions found");
       return;
@@ -38,8 +49,8 @@ public class TestingServiceImpl implements TestingService {
     int score = 0;
 
     for (Question question : questions) {
-      Answers answerForQuestion = dependencies.questionService().getAnswerForQuestion(question);
-      if (dependencies.answerService().validateAnswers(answerForQuestion, question)) {
+      Question answerForQuestion = questionService.getAnswerForQuestion(question);
+      if (answerForQuestion.studentsAnswersIsCorrect()) {
         score++;
       }
     }
