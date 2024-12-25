@@ -53,10 +53,15 @@ public class QuestionServiceImpl implements QuestionService {
   }
 
   private void printQuestion(Question question) {
-    String questionText = "Question " + question.getNumber() + " :" + question.getQuestionText();
+    StringBuilder questionText = new StringBuilder("Question ")
+        .append(question.getNumber())
+        .append(": ")
+        .append(question.getQuestionText());
+
     if (question.isMultipleChoice()) {
-      questionText = questionText + " (" + "There may be several possible answers" + ") ";
+      questionText.append(" (There may be several possible answers) ");
     }
+
     System.out.println(questionText);
     if (!question.getAnswers().isEmpty()) {
       for (int j = 0; j < question.getAnswers().size(); j++) {
