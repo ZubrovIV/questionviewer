@@ -4,8 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.lessons.dao.CsvResourceReader;
-import org.lessons.domain.Answers;
 import org.lessons.domain.Question;
 import org.lessons.service.QuestionParser;
 import org.lessons.service.QuestionService;
@@ -38,24 +39,29 @@ public class QuestionServiceImpl implements QuestionService {
   }
 
   @Override
-  public Answers getAnswerForQuestion(Question question) {
+  public Question getAnswerForQuestion(Question question) {
     if (Objects.isNull(question) || Objects.isNull(question.getAnswers())) {
       System.out.println("No question provided or no answers available");
       return null;
     }
     printQuestion(question);
     if (question.isMultipleChoice()) {
-      return getAnswerForQuestionWithMultiple(question.getAnswers().size());
+      return getAnswerForQuestionWithMultiple(question, question.getAnswers().size());
     } else {
-      return getAnswerForQuestionWithSingle(question.getAnswers().size());
+      return getAnswerForQuestionWithSingle(question, question.getAnswers().size());
     }
   }
 
   private void printQuestion(Question question) {
-    String questionText = "Question " + question.getNumber() + " :" + question.getQuestionText();
+    StringBuilder questionText = new StringBuilder("Question ")
+        .append(question.getNumber())
+        .append(": ")
+        .append(question.getQuestionText());
+
     if (question.isMultipleChoice()) {
-      questionText = questionText + " (" + "There may be several possible answers" + ") ";
+      questionText.append(" (There may be several possible answers) ");
     }
+
     System.out.println(questionText);
     if (!question.getAnswers().isEmpty()) {
       for (int j = 0; j < question.getAnswers().size(); j++) {
@@ -66,33 +72,32 @@ public class QuestionServiceImpl implements QuestionService {
     }
   }
 
-  private Answers getAnswerForQuestionWithMultiple(Integer answersSize) {
+  private Question getAnswerForQuestionWithMultiple(Question question, Integer answersSize) {
     System.out.println("Enter answer numbers separated by space: ");
     String answerNumbers = scanner.nextLine();
     try {
-      List<Integer> answers = Arrays.stream(answerNumbers.trim().split(" "))
+      question.setStudentsAnswers(Arrays.stream(answerNumbers.trim().split(" "))
           .map(Integer::parseInt)
           .filter(i -> i > 0 && i <= answersSize)
-          .toList();
-      return new Answers(answers);
+          .collect(Collectors.toSet()));
+      return question;
     } catch (Exception e) {
       System.out.println("Invalid input");
-      return null;
+      return question;
     }
   }
 
-  private Answers getAnswerForQuestionWithSingle(Integer answersSize) {
+  private Question getAnswerForQuestionWithSingle(Question question, Integer answersSize) {
     System.out.println("Enter answer number: ");
     try {
       int answer = Integer.parseInt(scanner.nextLine());
       if (answer > 0 && answer <= answersSize) {
-        return new Answers(List.of(answer));
-      } else {
-        return null;
+        question.setStudentsAnswers(Set.of(answer));
       }
+      return question;
     } catch (Exception e) {
       System.out.println("Invalid input");
-      return null;
+      return question;
     }
   }
 }

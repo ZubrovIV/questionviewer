@@ -3,13 +3,10 @@ package org.lessons.config;
 import java.util.Scanner;
 import org.lessons.dao.CsvResourceReader;
 import org.lessons.dao.impl.CsvResourceReaderImpl;
-import org.lessons.service.AnswerService;
 import org.lessons.service.QuestionParser;
 import org.lessons.service.QuestionService;
 import org.lessons.service.StudentRegistrationService;
 import org.lessons.service.TestingService;
-import org.lessons.service.dependencies.TestingServiceDependencies;
-import org.lessons.service.impl.AnswerServiceImpl;
 import org.lessons.service.impl.QuestionParserImpl;
 import org.lessons.service.impl.QuestionServiceImpl;
 import org.lessons.service.impl.StudentRegistrationServiceImpl;
@@ -53,20 +50,11 @@ public class ServiceConfig {
     return new QuestionServiceImpl(csvResourceReader(), questionParser(), resourcePath);
   }
 
-  @Bean
-  public AnswerService answerService() {
-    return new AnswerServiceImpl();
-  }
-
-  @Bean
-  public TestingServiceDependencies testingServiceDependencies() {
-    return new TestingServiceDependencies(studentRegistrationService(), questionService(),
-        questionParser(), csvResourceReader(), answerService());
-  }
 
   @Bean
   public TestingService testingService() {
-    return new TestingServiceImpl(testingServiceDependencies(), passingScore, resourcePath);
+    return new TestingServiceImpl(studentRegistrationService(), questionService(), questionParser(),
+        csvResourceReader(), passingScore, resourcePath);
   }
 
 
