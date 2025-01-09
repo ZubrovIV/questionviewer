@@ -1,0 +1,7 @@
+server:
+  port: 8080
+
+passing:
+  score: 2
+resource:
+  path: questions.csv

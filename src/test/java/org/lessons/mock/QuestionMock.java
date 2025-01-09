@@ -1,4 +1,4 @@
-package org.lessons.service.impl.mock;
+package org.lessons.mock;
 
 import java.util.HashSet;
 import java.util.List;

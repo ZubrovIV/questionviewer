@@ -10,19 +10,21 @@ import org.lessons.dao.CsvResourceReader;
 import org.lessons.domain.Question;
 import org.lessons.service.QuestionParser;
 import org.lessons.service.QuestionService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+@Service
 public class QuestionServiceImpl implements QuestionService {
 
   private final CsvResourceReader resourceReader;
   private final QuestionParser parser;
-  private final String resourcePath;
+  @Value("${resource.path}")
+  private String resourcePath;
   private final Scanner scanner = new Scanner(System.in);
 
-  public QuestionServiceImpl(CsvResourceReader resourceReader, QuestionParser parser,
-      String resourcePath) {
+  public QuestionServiceImpl(CsvResourceReader resourceReader, QuestionParser parser) {
     this.resourceReader = resourceReader;
     this.parser = parser;
-    this.resourcePath = resourcePath;
   }
 
 
