@@ -9,7 +9,10 @@ import org.lessons.service.QuestionParser;
 import org.lessons.service.QuestionService;
 import org.lessons.service.StudentRegistrationService;
 import org.lessons.service.TestingService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+@Service
 public class TestingServiceImpl implements TestingService {
 
   private final StudentRegistrationService studentRegistrationService;
@@ -17,21 +20,18 @@ public class TestingServiceImpl implements TestingService {
   private final QuestionParser questionParser;
   private final CsvResourceReader resourceReader;
 
-
-  private final Integer passingScore;
-  private final String resourcePath;
+  @Value("${passing.score}")
+  private Integer passingScore;
+  @Value("${resource.path}")
+  private String resourcePath;
 
   public TestingServiceImpl(StudentRegistrationService studentRegistrationService,
       QuestionService questionService, QuestionParser questionParser,
-      CsvResourceReader resourceReader, Integer passingScore,
-      String resourcePath) {
+      CsvResourceReader resourceReader) {
     this.studentRegistrationService = studentRegistrationService;
     this.questionService = questionService;
     this.questionParser = questionParser;
     this.resourceReader = resourceReader;
-
-    this.passingScore = passingScore;
-    this.resourcePath = resourcePath;
   }
 
 

@@ -11,7 +11,9 @@ import java.util.stream.Collectors;
 import org.lessons.domain.Question;
 import org.lessons.domain.enums.AnswerType;
 import org.lessons.service.QuestionParser;
+import org.springframework.stereotype.Service;
 
+@Service
 public class QuestionParserImpl implements QuestionParser {
 
   @Override
